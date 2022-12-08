@@ -1,7 +1,7 @@
 package JavaProjects.ParkingProject;
-/*To do list:
- * Check for constructor MemberShip(MembershipType membership, VehicleSize vehicleSize)
- */
+
+/*This class stands for membership, if the parked vehicle has a special membership, special ticket rates will be created.*/
+
 public class MemberShip{
     final static int percentPerHourForGoldMembers = 2;
     final static int percentPerHourForNormalMembers = 5;
@@ -15,6 +15,7 @@ public class MemberShip{
     private double baseTicketPrice;
     private double extraSpaceChargesCoefficient;
 
+    //Constructor
     public MemberShip(MembershipType membership, VehicleSize vehicleSize){
 
         if(membership.equals(MembershipType.NORMAL)){

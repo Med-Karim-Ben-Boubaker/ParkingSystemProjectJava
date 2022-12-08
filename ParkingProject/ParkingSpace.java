@@ -1,14 +1,18 @@
 package JavaProjects.ParkingProject;
 import java.util.Date;
 import java.util.ArrayList;
-/*To do list:
- * Organize more user messages.
+/*
+* This class represents a full parking space with several parking slots.
+* If the parking has many floors, we may also describe this class as a floor.
+* Both large and normal parking spaces are present in this parking area.
+* Extensions are possible.
  */
 public class ParkingSpace implements ParkingInterface {
     private static ParkingSpace parkingSpace;
     private final ArrayList<ParkingSlot> bigParkingSlots;
     private final ArrayList<ParkingSlot> normalParkingSlots;
 
+    //Constructor
     public ParkingSpace(){
         this.bigParkingSlots = new ArrayList<>();
         this.normalParkingSlots = new ArrayList<>();
@@ -27,6 +31,7 @@ public class ParkingSpace implements ParkingInterface {
         parkingSpace = null;
     }
 
+    //This function will initialize all parking slots inside a parking space.
     public boolean initializeParkingSlots(int numberOfBigParkingSlots, int numberOfNormalParkingSlots){
 
         for(int i=0; i<numberOfBigParkingSlots; i++){
@@ -43,22 +48,17 @@ public class ParkingSpace implements ParkingInterface {
     }
 
     public Ticket park(Vehicle vehicle) throws ParkingIsFullException {
-        ParkingSlot nextParkingSlot;
         
+        ParkingSlot nextParkingSlot;
         nextParkingSlot = getNextAvailablParkingSlot(vehicle.getVehicleSize());
-    
         nextParkingSlot.occupyParkingSlot(vehicle);
 
-        System.out.println("######## - Parking Info - ########## \n"+
-        "A Parking Slot has been allocated: \nParking Slot Number: "+
-        nextParkingSlot.getParkingSlotNumber()+
-        " Parking Slot Size: "+ nextParkingSlot.getParkingSlotSize()+ " For Vehicle with ID: "+
-        vehicle.getVehicleIdNumber()+
-        "\n#####################");
+        Ticket ticket = new Ticket(nextParkingSlot);
+        System.out.println("\nSystem: The Parking Slot number  "+nextParkingSlot.getParkingSlotNumber()+" has been allocated\n");
+        String parkingMessage = ticket.getParkingMessage();
+        System.out.println(parkingMessage);
 
-        return new Ticket(nextParkingSlot);
-    
-        
+        return ticket;
     }
 
     private ParkingSlot getNextAvailablParkingSlot(VehicleSize vehicleSize) throws ParkingIsFullException {
@@ -84,16 +84,13 @@ public class ParkingSpace implements ParkingInterface {
     }
 
     public Ticket unPark(Ticket ticket, Vehicle vehicle){
-    
         Date unParkingDate = new Date();
         ticket.setUnParkingDate(unParkingDate);
         ticket.setTicketPrice(ticket.calculateTicketPrice(ticket.getDate(), unParkingDate, vehicle));
-        
-        
-        System.out.println("Parking Slot Number: "+ticket.getParkingSlot().getParkingSlotNumber()+" is set Free\n"+
-        "Ticket price is: "+ticket.getTicketPrice()+
-        "\nEntry date: "+ticket.getDate()+"- Exit date: "+ unParkingDate + '\n' +
-        ticket.toString());
+
+        String unParkingMessage = ticket.getUnParkingMessage();
+
+        System.out.println(unParkingMessage);
 
         ticket.getParkingSlot().freeParkingSlot();
 
