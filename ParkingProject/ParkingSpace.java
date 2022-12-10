@@ -47,20 +47,22 @@ public class ParkingSpace implements ParkingInterface {
         return true;
     }
 
+    //This function illustrates the process of parking a vehicle by producing a ticket and occupying the proper parking space.
     public Ticket park(Vehicle vehicle) throws ParkingIsFullException {
         
         ParkingSlot nextParkingSlot;
-        nextParkingSlot = getNextAvailablParkingSlot(vehicle.getVehicleSize());
-        nextParkingSlot.occupyParkingSlot(vehicle);
+        nextParkingSlot = getNextAvailablParkingSlot(vehicle.getVehicleSize()); // Searching for the next available parking slot,
+        nextParkingSlot.occupyParkingSlot(vehicle);                             // if all the wanted parking slots are full, an exception will be thrown.
 
-        Ticket ticket = new Ticket(nextParkingSlot);
-        System.out.println("\nSystem: The Parking Slot number  "+nextParkingSlot.getParkingSlotNumber()+" has been allocated\n");
+        Ticket ticket = new Ticket(nextParkingSlot); //Generating a new ticket.
+        System.out.println("\nSystem: The Parking Slot number  "+nextParkingSlot.getParkingSlotNumber()+" has been allocated\n"); //System notification.
         String parkingMessage = ticket.getParkingMessage();
-        System.out.println(parkingMessage);
+        System.out.println(parkingMessage); //Print ticket message.
 
         return ticket;
     }
 
+    //If no space is discovered, a ParkingIsFullException is issued. This function searches for the next available parking slot for the vehicle with the specified size (vehicleSize).
     private ParkingSlot getNextAvailablParkingSlot(VehicleSize vehicleSize) throws ParkingIsFullException {
         int i = 1;
 
@@ -83,6 +85,7 @@ public class ParkingSpace implements ParkingInterface {
         }
     }
 
+    //By generating a ticket and clearing the designated parking space, this function demonstrates the process of exiting a vehicle.
     public Ticket unPark(Ticket ticket, Vehicle vehicle){
         Date unParkingDate = new Date();
         ticket.setUnParkingDate(unParkingDate);
